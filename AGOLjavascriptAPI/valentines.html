@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ArcGIS API for JavaScript Tutorials: Add a point, line, and polygon</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.22/"></script>
+  <script>
+
+  require([
+    "esri/config",
+    "esri/Map",
+    "esri/views/MapView",
+    "esri/layers/GeoJSONLayer",
+
+    ], function(esriConfig, Map, MapView, GeoJSONLayer) {
+
+  esriConfig.apiKey = "AAPK117c2ef0725c42a49dec150bbdee2fcdnFqrPTgycD8QdxpjbqQvXTMfaZy03nObqrUbcVrMo4tdRVI9OYB0Wn07rrXjBrtL";
+
+  const map = new Map({
+    basemap: "arcgis-topographic" //Basemap layer service
+  });
+  const view = new MapView({
+    map: map,
+    center: [46.811628, -71.204583], //Longitude, latitude
+    zoom: 12,
+    container: "viewDiv"
+ });
+ 
+ const geojsonLayer = new GeoJSONLayer({
+  url: "https://github.com/kendylljonesmcgowan/pl2/blob/main/AGOLjavascriptAPI/valentines.geojson",
+  copyright: "Valentines.geojson - Made by Kendyll Jones-McGowan with: https://geojson.io/#map=2/20.0/0.0",
+});
+    
+ map.add(geojsonlayer);  // adds the layer to the map
+});
+    
+});
+</script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
