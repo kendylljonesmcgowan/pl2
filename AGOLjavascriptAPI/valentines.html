@@ -40,7 +40,7 @@
       zoom: 13
     });
 
-    const places = ["Choose a place type...", "Parks and Outdoors", "Coffee shop", "Gas station", "Food", "Hotel"];
+    const places = ["Choose a place type...", "Parks and Outdoors", "Coffee shop","Food", "Hotel"];
 
     const select = document.createElement("select","");
       select.setAttribute("class", "esri-widget esri-select");
@@ -56,60 +56,8 @@
     view.ui.add(select, "top-right");
 
     const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-
-   // Find places and add them to the map
-   function findPlaces(category, pt) {
-    locator.addressToLocations(locatorUrl, {
-      location: pt,
-      categories: [category],
-      maxLocations: 25,
-      outFields: ["Place_addr", "PlaceName"]
-    })
-
-    .then(function(results) {
-      view.popup.close();
-      view.graphics.removeAll();
-
-      results.forEach(function(result){
-        view.graphics.add(
-          new Graphic({
-            attributes: result.attributes,  // Data attributes returned
-            geometry: result.location, // Point returned
-            symbol: {
-             type: "simple-marker",
-             color: "#000000",
-             size: "12px",
-             outline: {
-               color: "#ffffff",
-               width: "2px"
-             }
-            },
-
-            popupTemplate: {
-              title: "{PlaceName}", // Data attribute names
-              content: "{Place_addr}"
-            }
-         }));
-      });
-
-    });
-
-  }
-
-  // Search for places in center of map
-  view.watch("stationary", function(val) {
-    if (val) {
-       findPlaces(select.value, view.center);
-    }
-    });
-
-  // Listen for category changes and find places
-  select.addEventListener('change', function (event) {
-    findPlaces(event.target.value, view.center);
-  });
-
-});
- const geojsonLayer = new GeoJSONLayer({
+    
+    const geojsonLayer = new GeoJSONLayer({
   "type": "FeatureCollection",
   "features": [
     {
@@ -268,6 +216,59 @@
       }
     }
   ]
+});
+
+   // Find places and add them to the map
+   function findPlaces(category, pt) {
+    locator.addressToLocations(locatorUrl, {
+      location: pt,
+      categories: [category],
+      maxLocations: 25,
+      outFields: ["Place_addr", "PlaceName"]
+    })
+
+    .then(function(results) {
+      view.popup.close();
+      view.graphics.removeAll();
+
+      results.forEach(function(result){
+        view.graphics.add(
+          new Graphic({
+            attributes: result.attributes,  // Data attributes returned
+            geometry: result.location, // Point returned
+            symbol: {
+             type: "simple-marker",
+             color: "#000000",
+             size: "12px",
+             outline: {
+               color: "#ffffff",
+               width: "2px"
+             }
+            },
+
+            popupTemplate: {
+              title: "{PlaceName}", // Data attribute names
+              content: "{Place_addr}"
+            }
+         }));
+      });
+
+    });
+
+  }
+
+  // Search for places in center of map
+  view.watch("stationary", function(val) {
+    if (val) {
+       findPlaces(select.value, view.center);
+    }
+    });
+
+  // Listen for category changes and find places
+  select.addEventListener('change', function (event) {
+    findPlaces(event.target.value, view.center);
+  });
+
 });
     
  map.add(geojsonlayer);  // adds the layer to the map
