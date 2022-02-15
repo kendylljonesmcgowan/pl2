@@ -22,9 +22,8 @@
     "esri/Map",
     "esri/views/MapView",
     "esri/rest/locator",
-    "esri/Graphic",
-    "esri/layers/GeoJSONLayer"
-    ], function(esriConfig,Map, MapView, locator, Graphic, GeoJSONLayer) {
+    "esri/Graphic"
+    ], function(esriConfig,Map, MapView, locator, Graphic) {
 
 
     esriConfig.apiKey = "AAPK117c2ef0725c42a49dec150bbdee2fcdnFqrPTgycD8QdxpjbqQvXTMfaZy03nObqrUbcVrMo4tdRVI9OYB0Wn07rrXjBrtL";
@@ -56,16 +55,17 @@
     view.ui.add(select, "top-right");
 
     const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-    
-    const geojsonLayer = new GeoJSONLayer({
-  "type": "FeatureCollection",
-  "features": [
+     
+// create a geojson layer from geojson feature collection
+    const geojson = {
+  type: "FeatureCollection",
+  features: [
     {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      type: "Feature",
+      id: 1,
+      geometry: {
+        type: "Polygon",
+        coordinates: [
           [
             [
               -71.22024536132815,
@@ -216,6 +216,24 @@
       }
     }
   ]
+},
+      properties: {
+        prop0: "value0",
+      }
+    }
+  ]
+};
+
+// create a new blob from geojson featurecollection
+const blob = new Blob([JSON.stringify(geojson)], {
+  type: "application/json"
+});
+
+// URL reference to the blob
+const url = URL.createObjectURL(blob);
+// create new geojson layer using the blob url
+const layer = new GeoJSONLayer({
+  url
 });
 
    // Find places and add them to the map
@@ -270,10 +288,9 @@
   });
 
 });
-    
- map.add(geojsonlayer);  // adds the layer to the map
-
 </script>
+  
+  
 </head>
 <body>
   <div id="viewDiv"></div>
