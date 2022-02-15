@@ -22,8 +22,9 @@
     "esri/Map",
     "esri/views/MapView",
     "esri/rest/locator",
-    "esri/Graphic"
-    ], function(esriConfig,Map, MapView, locator, Graphic) {
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer"
+    ], function(esriConfig,Map, MapView, locator, Graphic, GraphicsLayer) {
 
 
     esriConfig.apiKey = "AAPK117c2ef0725c42a49dec150bbdee2fcdnFqrPTgycD8QdxpjbqQvXTMfaZy03nObqrUbcVrMo4tdRVI9OYB0Wn07rrXjBrtL";
@@ -56,185 +57,28 @@
 
     const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
      
-// create a geojson layer from geojson feature collection
-    const geojson = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      id: 1,
-      geometry: {
-        type: "Polygon",
-        coordinates: [
-          [
-            [
-              -71.22024536132815,
-              46.82285159007993
-            ],
-            [
-              -71.22264862060547,
-              46.82637528602131
-            ],
-            [
-              -71.22848510742188,
-              46.8284893927214
-            ],
-            [
-              -71.23775482177734,
-              46.829311522871826
-            ],
-            [
-              -71.24393463134766,
-              46.82661019087185
-            ],
-            [
-              -71.246337890625,
-              46.82249920778248
-            ],
-            [
-              -71.24582290649414,
-              46.81744814104106
-            ],
-            [
-              -71.24427795410156,
-              46.813101494488606
-            ],
-            [
-              -71.24273300170897,
-              46.80969441780387
-            ],
-            [
-              -71.2405014038086,
-              46.80546464302894
-            ],
-            [
-              -71.23775482177734,
-              46.80193957664001
-            ],
-            [
-              -71.23500823974608,
-              46.79841427927054
-            ],
-            [
-              -71.23054504394531,
-              46.794653707482524
-            ],
-            [
-              -71.2250518798828,
-              46.7911279327476
-            ],
-            [
-              -71.22196197509766,
-              46.78877728793225
-            ],
-            [
-              -71.21578216552733,
-              46.78454586855852
-            ],
-            [
-              -71.2130355834961,
-              46.786661619823285
-            ],
-            [
-              -71.20994567871092,
-              46.78971755817767
-            ],
-            [
-              -71.20668411254883,
-              46.79300837468438
-            ],
-            [
-              -71.20359420776366,
-              46.796769061450924
-            ],
-            [
-              -71.20033264160155,
-              46.800999519926286
-            ],
-            [
-              -71.19810104370116,
-              46.80417214550559
-            ],
-            [
-              -71.19569778442381,
-              46.807932052068736
-            ],
-            [
-              -71.19398117065428,
-              46.81075180952776
-            ],
-            [
-              -71.19140625,
-              46.814628734664105
-            ],
-            [
-              -71.19071960449217,
-              46.817565613098786
-            ],
-            [
-              -71.19003295898439,
-              46.821207119597716
-            ],
-            [
-              -71.19157791137695,
-              46.824965835361034
-            ],
-            [
-              -71.19518280029297,
-              46.82895918291855
-            ],
-            [
-              -71.20084762573245,
-              46.83072085958825
-            ],
-            [
-              -71.20685577392578,
-              46.83060341627332
-            ],
-            [
-              -71.21200561523436,
-              46.82825449608303
-            ],
-            [
-              -71.21372222900392,
-              46.82567056531053
-            ],
-            [
-              -71.21509552001953,
-              46.82332142955031
-            ],
-            [
-              -71.21681213378905,
-              46.8195625988152
-            ],
-            [
-              -71.22024536132815,
-              46.82285159007993
-            ]
-          ]
-        ]
-      }
-    }
-  ]
-},
-      properties: {
-        prop0: "value0",
-      }
-    }
-  ]
-};
+     // Create a polygon geometry
+    const polygon = {
+    type: "polygon",
+    rings: [
+        [-71.206075, 46.804895], //Longitude, latitude
+        [-71.216958, 46.813024], //Longitude, latitude
+        [-71.217151, 46.816979], //Longitude, latitude
+        [-71.211139, 46.814334],   //Longitude, latitude
+        [-71.207948, 46.817227]  //Longitude, latitude
+        [-71.204499, 46.813320]  //Longitude, latitude
+        [-71.206075, 46.804895]  //Longitude, latitude
+    ]
+ };
 
-// create a new blob from geojson featurecollection
-const blob = new Blob([JSON.stringify(geojson)], {
-  type: "application/json"
-});
-
-// URL reference to the blob
-const url = URL.createObjectURL(blob);
-// create new geojson layer using the blob url
-const layer = new GeoJSONLayer({
-  url
-});
+ const simpleFillSymbol = {
+    type: "simple-fill",
+    color: [227, 139, 79, 0.8],  // Orange, opacity 80%
+    outline: {
+        color: [255, 255, 255],
+        width: 1
+    }
+ };
 
    // Find places and add them to the map
    function findPlaces(category, pt) {
