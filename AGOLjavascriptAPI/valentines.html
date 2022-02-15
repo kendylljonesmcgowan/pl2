@@ -79,6 +79,13 @@
         width: 1
     }
  };
+     
+    const polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: simpleFillSymbol,
+
+ });
+ graphicsLayer.add(polygonGraphic);
 
    // Find places and add them to the map
    function findPlaces(category, pt) {
