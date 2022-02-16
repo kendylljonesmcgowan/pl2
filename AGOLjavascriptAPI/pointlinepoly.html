@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+<!-- Created by Kendyll Jones-McGowan as a deliverable for Practical Lab #2, GEOM 99, Web GIS Development -->
+<!-- Code taken from ArcGIS API for JavaScript "Add a point, line, and polygon" tutorial: https://developers.arcgis.com/javascript/latest/add-a-point-line-and-polygon/ -->
+<!-- No items altered -->
+
 <html>
 <html>
 <head>
@@ -30,27 +35,27 @@
   esriConfig.apiKey = "AAPK117c2ef0725c42a49dec150bbdee2fcdnFqrPTgycD8QdxpjbqQvXTMfaZy03nObqrUbcVrMo4tdRVI9OYB0Wn07rrXjBrtL";
 
   const map = new Map({
-    basemap: "arcgis-topographic" //Basemap layer service
+    basemap: "arcgis-topographic" <!-- Basemap layer service -->
   });
   const view = new MapView({
     map: map,
-    center: [-118.80500,34.02700], //Longitude, latitude
+    center: [-118.80500,34.02700], <!-- Longitude, latitude -->
     zoom: 13,
     container: "viewDiv"
  }); 
   const graphicsLayer = new GraphicsLayer();
     map.add(graphicsLayer);
     
-   const point = { //Create a point
+   const point = { <!-- Creates a point -->
     type: "point",
     longitude: -118.80657463861,
     latitude: 34.0005930608889
  };
    const simpleMarkerSymbol = {
     type: "simple-marker",
-    color: [226, 119, 40],  // Orange
+    color: [226, 119, 40],  <!-- Orange -->
     outline: {
-        color: [255, 255, 255], // White
+        color: [255, 255, 255], <!-- White -->
         width: 1
     }
  };
@@ -60,7 +65,7 @@
  });
  graphicsLayer.add(pointGraphic);
     
-// Create a line geometry
+<!-- Creates a line geometry -->
  const polyline = {
     type: "polyline",
     paths: [
@@ -71,7 +76,7 @@
  };
  const simpleLineSymbol = {
     type: "simple-line",
-    color: [226, 119, 40], // Orange
+    color: [226, 119, 40], <!-- Orange -->
     width: 2
  };
 
@@ -81,7 +86,7 @@
  });
  graphicsLayer.add(polylineGraphic);
     
-    // Create a polygon geometry
+    <!-- Creates a polygon geometry -->
  const polygon = {
     type: "polygon",
     rings: [
@@ -95,7 +100,7 @@
 
  const simpleFillSymbol = {
     type: "simple-fill",
-    color: [227, 139, 79, 0.8],  // Orange, opacity 80%
+    color: [227, 139, 79, 0.8],  <!-- Orange, opacity 80% -->
     outline: {
         color: [255, 255, 255],
         width: 1
